@@ -10,7 +10,8 @@ import sys
 SPX_or_VIX = "VIX"
 
 # Loading a comma-separated values (csv) file into a pandas DataFrame
-VIX_df = pd.read_csv(r"C:/Users/raymo/Downloads/" + SPX_or_VIX + ".csv")
+# Please note: the filename will be different depending on where the data is stored
+VIX_df = pd.read_csv(r"C:/Users/oem/Downloads/" + SPX_or_VIX + ".csv")
 
 # Changing column names
 VIX_df.columns = ["Date", "Adjusted Close"]
