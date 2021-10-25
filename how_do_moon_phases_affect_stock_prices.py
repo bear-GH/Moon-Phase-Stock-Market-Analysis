@@ -4,22 +4,23 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math
 import ephem
+import sys
 
 # Changing either SPX and VIX
 SPX_or_VIX = "VIX"
 
 # Loading a comma-separated values (csv) file into a pandas DataFrame
-VIX_df = pd.read_csv(r"C:/Users/oem/Downloads/" + SPX_or_VIX + ".csv")
+VIX_df = pd.read_csv(r"C:/Users/raymo/Downloads/" + SPX_or_VIX + ".csv")
 
 # Changing column names
 VIX_df.columns = ["Date", "Adjusted Close"]
 
 # Converting 'Date' column data type to datetime data type
 VIX_df["Date"] = pd.to_datetime(VIX_df["Date"])
-VIX_df.info
 
 # Sorting DataFrame in ascending order by date
 VIX_df = VIX_df.sort_values("Date")
+#pd.set_option("display.max_row", None, "display.max_columns", None)
 
 # Creating lists from DataFrame columns
 dates = VIX_df["Date"].tolist()
@@ -68,14 +69,14 @@ for i in range(before_and_after * 2 + 1):
             percentage_changes.append((price - full_moon_price) / full_moon_price * 100)
     average_percentage_changes.append(sum(percentage_changes) / len(percentage_changes))
 
-# Cereating a list of the days 
+# Creating a list of the days 
 days_before_and_after = [i for i in range(- before_and_after, before_and_after + 1)]
 
-# exporting all the data as a csv fle 
+# exporting all the data as a csv file 
 full_moon_data = {
     "Days until full moon" : days_before_and_after,
     "Average Percentage Changes (in relation to full moon day price)" : average_percentage_changes,
-    "If the full moon day price was $100" : [round(100 * (1 + i), 2) for i in average_percentage_changes]
+    "If the full moon day price was $100" : [round(100 + i, 2) for i in average_percentage_changes]
     }
 full_moon_df = pd.DataFrame(full_moon_data)
 full_moon_df.to_csv(SPX_or_VIX + "_full_moon_data.csv")
@@ -141,13 +142,13 @@ days_before_and_after = [i for i in range(- before_and_after, before_and_after +
 new_moon_data = {
     "Days until full moon" : days_before_and_after,
     "Average Percentage Changes (in relation to new moon day price)" : average_percentage_changes,
-    "If the new moon day price was $100" : [round(100 * (1 + i), 2) for i in average_percentage_changes]
+    "If the new moon day price was $100" : [round(100 + i, 2) for i in average_percentage_changes]
     }
 
 new_moon_df = pd.DataFrame(new_moon_data)
 new_moon_df.to_csv(SPX_or_VIX + "_new_moon_data.csv")
 
-plt.figure(0)
+plt.figure(1)
 plt.plot(days_before_and_after, average_percentage_changes, color = "pink")
 plt.bar(days_before_and_after, average_percentage_changes, color = "green")
 plt.xlabel("Days Before and After New Moon")
